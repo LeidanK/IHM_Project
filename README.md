@@ -3,7 +3,8 @@
 ## Introduction
 Voici le repo GitHub qui sera utilisé pour la construction du projet IHM.
 
-Et voici également les liens des deux pages qui devront être modifiées :
+Et voici également les liens des trois pages qui devront être recréées :
+- https://arxiv.org/
 - https://arxiv.org/catchup?group=grp_physics&%2Fcatchup=Catchup
 - https://arxiv.org/year/astro-ph/2021
 
