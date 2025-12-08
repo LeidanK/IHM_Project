@@ -6,12 +6,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.io.InputStream;
+import java.rmi.UnexpectedException;
 import java.util.List;
 import java.util.Map;
 
@@ -26,20 +30,56 @@ public class HelloApplication extends Application {
         // Composant principal
         VBox main = new VBox(15);
         main.setStyle("-fx-background-color: white;");
-        main.setPadding(new Insets(15));
+//        main.setPadding(new Insets(15));
         main.setAlignment(Pos.TOP_CENTER);
 
         // Titre
-        Label title = new Label("arXiv");
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 35));
-        title.setTextFill(Color.WHITE);
+//        Label title = new Label("arXiv");
+//        title.setFont(Font.font("Arial", FontWeight.BOLD, 35));
+//        title.setTextFill(Color.WHITE);
+
+        // Image / Logo
+        ImageView logo = new ImageView(new Image(getClass().getResourceAsStream("/com/example/ihm_project/arxiv-logo.png")));
+        logo.setPreserveRatio(true);
+        logo.setFitHeight(60);
+//        InputStream is = getClass().getResourceAsStream("/com/example/ihm_project/arxiv-logo.png");
+//        System.out.println(is); // doit afficher quelque chose ≠ null
 
         // Header
-        HBox header = new HBox(title);
+        HBox header = new HBox(logo);
         header.setPadding(new Insets(10));
         header.setStyle("-fx-background-color: #b31b1b;");
         header.setMinHeight(80);
         header.setAlignment(Pos.CENTER_LEFT);
+
+        // Footer
+        GridPane footer = new GridPane();
+        footer.setPadding(new Insets(18));
+        footer.setHgap(120);
+        footer.setVgap(15);
+        footer.setStyle("-fx-background-color: #e7e7e7;");
+        footer.setMinHeight(80);
+        footer.setAlignment(Pos.BASELINE_CENTER);
+
+        // Footer elements
+        Label about = new Label("About");
+        Label help = new Label("Help");
+        Label contact = new Label("Contact");
+        Label subscribe = new Label("Subscribe");
+        Label copyright = new Label("Copyright");
+        Label privacy = new Label("Privacy Policy");
+        Label assistance = new Label("Web Accessibility Assistance");
+        Label status = new Label("arXiv Operational Status");
+
+        footer.add(about, 0, 0);
+        footer.add(help, 0, 1);
+        footer.add(contact, 1, 0);
+        footer.add(subscribe, 1, 1);
+        footer.add(copyright, 2, 0);
+        footer.add(privacy, 2, 1);
+        footer.add(assistance, 3, 0);
+        footer.add(status, 3, 1);
+
 
         // Catégories
         GridPane grid = new GridPane();
@@ -49,7 +89,6 @@ public class HelloApplication extends Application {
         grid.setAlignment(Pos.CENTER);
 
         // Données extraites de la page web
-
         StringBuilder content = new StringBuilder("<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "\n" +
@@ -511,16 +550,11 @@ public class HelloApplication extends Application {
         String html = content.toString();
 
 
-        //-----------------------------------------------------
-        // 1) Scraping : INTRO + SECTIONS + LIENS
-        //-----------------------------------------------------
+        // Scrapping données
         String introText = extractBetween(html, "<p class=\"tagline\">", "</p>");
-        System.out.println(introText);
         Map<String, List<String>> data = extractSections(html);
 
-        //-----------------------------------------------------
-        // 4) Portrait du texte introductif
-        //-----------------------------------------------------
+        // Description arXiv
         Label intro = new Label(introText);
         intro.setWrapText(true);
         intro.setFont(Font.font("Arial", 15));
@@ -541,10 +575,8 @@ public class HelloApplication extends Application {
             }
         }
 
-        //-----------------------------------------------------
-        // 6) Ajout des composants
-        //-----------------------------------------------------
-        main.getChildren().addAll(header, intro, grid);
+        // Ajout des différentes Node
+        main.getChildren().addAll(header, intro, grid, footer);
 
         ScrollPane scroll = new ScrollPane(main);
         scroll.setFitToWidth(true);    // Le contenu occupe toute la largeur

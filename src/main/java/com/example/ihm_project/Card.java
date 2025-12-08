@@ -27,8 +27,6 @@ public class Card {
             String text = parts[0].trim();
             String url = parts.length > 1 ? parts[1].trim() : "";
 
-            System.out.println(text);
-
             Hyperlink link = new Hyperlink("• " + text);
             link.setFont(Font.font("Arial", 14));
             link.setWrapText(true);
@@ -61,7 +59,7 @@ public class Card {
         VBox card = new VBox(10, title, innerScroll);
         card.setPadding(new Insets(15));
 
-        card.setPrefSize(400, 300);
+        card.setPrefSize(400, 150);
         card.setMaxSize(470, 350);
         card.setMinSize(280, 250);
 
