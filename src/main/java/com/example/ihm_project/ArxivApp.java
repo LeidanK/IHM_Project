@@ -76,7 +76,7 @@ public class ArxivApp {
         headerBox.getStyleClass().add("header-box");
 
         TextField searchField = new TextField();
-        VBox.setMargin(searchField, new Insets(0, 15, 0, 15));
+        VBox.setMargin(searchField, new Insets(10, 15, 0, 15));
         searchField.setPromptText("Search");
         searchField.textProperty().addListener((obs, oldVal, newVal) -> loadArticles(newVal));
 
