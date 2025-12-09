@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -14,8 +15,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.InputStream;
+import java.net.URI;
 import java.rmi.UnexpectedException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,14 +66,32 @@ public class HelloApplication extends Application {
         footer.setAlignment(Pos.BASELINE_CENTER);
 
         // Footer elements
-        Label about = new Label("About");
-        Label help = new Label("Help");
-        Label contact = new Label("Contact");
-        Label subscribe = new Label("Subscribe");
-        Label copyright = new Label("Copyright");
-        Label privacy = new Label("Privacy Policy");
-        Label assistance = new Label("Web Accessibility Assistance");
-        Label status = new Label("arXiv Operational Status");
+        Hyperlink about = new Hyperlink("About");
+        Hyperlink help = new Hyperlink("Help");
+        Hyperlink contact = new Hyperlink("Contact");
+        Hyperlink subscribe = new Hyperlink("Subscribe");
+        Hyperlink copyright = new Hyperlink("Copyright");
+        Hyperlink privacy = new Hyperlink("Privacy Policy");
+        Hyperlink assistance = new Hyperlink("Web Accessibility Assistance");
+        Hyperlink status = new Hyperlink("arXiv Operational Status");
+
+        Hyperlink[] footerList = {about, help, contact, subscribe, copyright, privacy, assistance, status};
+        String url = "https://info.arxiv.org/";
+        String[] urls = {"about", "help", "help/contact.html", "help/subscribe", "help/license/index.html", "help/policies/privacy_policy.html", "help/web_accessibility.html", "https://status.arxiv.org/"};
+
+        for(int i = 0; i < 7; i++) {
+            int finalI = i;
+            footerList[i].setOnAction(e -> {
+                    try {
+                        // Ouvre le lien complet dans le navigateur
+                        Desktop.getDesktop().browse(
+                                new URI(url + urls[finalI])
+                        );
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+            });
+        }
 
         footer.add(about, 0, 0);
         footer.add(help, 0, 1);
