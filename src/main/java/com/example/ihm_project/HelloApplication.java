@@ -150,7 +150,7 @@ public class HelloApplication extends Application {
         });
 
         // Ajout des différentes Node
-        main.getChildren().addAll(header, intro, grid, footer);
+        main.getChildren().addAll(header, intro, searchField, grid, footer);
 
         ScrollPane scroll = new ScrollPane(main);
         scroll.setFitToWidth(true);    // Le contenu occupe toute la largeur
