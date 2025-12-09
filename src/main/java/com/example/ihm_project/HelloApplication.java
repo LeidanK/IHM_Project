@@ -14,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import javafx.scene.control.Button;
+
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
@@ -148,17 +150,27 @@ public class HelloApplication extends Application {
         });
 
         // Ajout des différentes Node
-        main.getChildren().addAll(header, intro, searchField, grid, footer);
+        main.getChildren().addAll(header, intro, grid, footer);
 
         ScrollPane scroll = new ScrollPane(main);
         scroll.setFitToWidth(true);    // Le contenu occupe toute la largeur
         scroll.setStyle("-fx-background: white;");
 
-        Scene scene = new Scene(scroll, 1000, 900);
-        stage.setScene(scene);
+        Scene helloScene = new Scene(scroll, 1000, 900);
+
+        // Bouton pour passer au deuxième écran
+        Button goToArxiv = new Button("Passer vers Articles");
+        goToArxiv.setMinWidth(150);
+        footer.add(goToArxiv, 4, 0);
+
+        goToArxiv.setOnAction(e -> {
+            ArxivApp app = new ArxivApp(getHostServices());
+            Scene secondScene = app.createScene(stage, helloScene);
+            stage.setScene(secondScene);
+        });
 
         stage.setTitle("arXiv Styled Page");
-        stage.setScene(scene);
+        stage.setScene(helloScene);
         stage.show();
     }
 

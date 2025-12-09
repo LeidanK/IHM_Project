@@ -90,8 +90,10 @@ public class ArxivApp {
         Button backButton = new Button("← Retour");
         backButton.setOnAction(e -> stage.setScene(helloScene));
 
-        VBox root = new VBox(10, headerBox, searchField, scroll, backButton);
-        root.setPrefSize(800, 600);
+        BorderPane root = new BorderPane();
+        root.setTop(headerBox);
+        root.setCenter(new VBox(10, searchField, scroll));
+        root.setBottom(backButton);
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/com/example/ihm_project/style.css").toExternalForm());
