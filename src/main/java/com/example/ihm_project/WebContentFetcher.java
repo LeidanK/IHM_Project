@@ -45,18 +45,6 @@ public class WebContentFetcher {
         return content.toString();
     }
 
-    public static void main(String[] args) {
-        String url = "https://arxiv.org/";
-
-        try {
-            String html = fetchHTML(url);
-            System.out.println("Contenu récupéré :\n");
-            System.out.println(html);
-        } catch (IOException e) {
-            System.err.println("Erreur lors de la récupération : " + e.getMessage());
-        }
-    }
-
     public static String extractBetween(String text, String start, String end) {
         int s = text.indexOf(start);
         if (s == -1) return "";
@@ -137,5 +125,9 @@ public class WebContentFetcher {
         }
 
         return links;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
