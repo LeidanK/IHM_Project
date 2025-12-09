@@ -10,18 +10,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.io.InputStream;
 import java.net.URI;
-import java.rmi.UnexpectedException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javafx.scene.control.TextField;
 
 import static com.example.ihm_project.Card.createCategoryCard;
 import static com.example.ihm_project.WebContentFetcher.extractBetween;
@@ -584,21 +580,19 @@ public class HelloApplication extends Application {
 
         int col = 0, row = 0;
 
-        for (String category : data.keySet()) {
+        updateGrid(grid, data, "");
 
-            VBox card = createCategoryCard(category, data.get(category));
+        TextField searchField = new TextField();
+        searchField.setPromptText("Rechercher...");
+        searchField.setMaxWidth(300);
+        searchField.setPadding(new Insets(10));
 
-            grid.add(card, col, row);
-
-            col++;
-            if (col == 3) { // 3 colonnes
-                col = 0;
-                row++;
-            }
-        }
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            updateGrid(grid, data, newValue);
+        });
 
         // Ajout des différentes Node
-        main.getChildren().addAll(header, intro, grid, footer);
+        main.getChildren().addAll(header, intro, searchField, grid, footer);
 
         ScrollPane scroll = new ScrollPane(main);
         scroll.setFitToWidth(true);    // Le contenu occupe toute la largeur
@@ -610,6 +604,35 @@ public class HelloApplication extends Application {
         stage.setTitle("arXiv Styled Page");
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void updateGrid(GridPane grid, Map<String, List<String>> data, String filter) {
+
+        grid.getChildren().clear(); // Efface les cards
+
+        int col = 0, row = 0;
+
+        for (String category : data.keySet()) {
+
+            // Vérifie si le nom de catégorie correspond au filtre
+            boolean matchCategory = category.toLowerCase().contains(filter.toLowerCase());
+
+            // Vérifie si au moins un sous-élément correspond
+            boolean matchItem = data.get(category).stream()
+                    .anyMatch(item -> item.toLowerCase().contains(filter.toLowerCase()));
+
+            if (filter.isEmpty() || matchCategory || matchItem) {
+                VBox card = Card.createCategoryCard(category, data.get(category));
+
+                grid.add(card, col, row);
+
+                col++;
+                if (col == 3) {
+                    col = 0;
+                    row++;
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
