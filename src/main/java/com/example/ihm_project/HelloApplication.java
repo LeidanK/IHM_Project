@@ -167,7 +167,7 @@ public class HelloApplication extends Application {
                 "        <button class=\"button is-small is-cul-darker\">Search</button>\n" +
                 "      </div>\n" +
                 "    </form>\n" +
-                "  </div>\n" +
+                "  </div>\n" +<
                 "     </div><!-- /end desktop header -->\n" +
                 "\n" +
                 "      <div class=\"mobile-header\">\n" +
@@ -590,7 +590,20 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
+    // Bouton pour passer au deuxième écran
+        Button goToArxiv = new Button("Passer vers Articles");
+        goToArxiv.setMinWidth(150);
+        footer.add(goToArxiv, 4, 0);
+
+        goToArxiv.setOnAction(e -> {
+            ArxivApp app = new ArxivApp(getHostServices());
+            Scene secondScene = app.createScene(stage, helloScene);
+            stage.setScene(secondScene);
+        });
+
+
     public static void main(String[] args) {
         launch();
     }
+
 }
