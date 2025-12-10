@@ -124,7 +124,6 @@ public class ArxivApp {
         return scene;
     }
 
-    // (Remaining helper methods unchanged)
     private void loadArticles(String filter) {
         articleContainer.getChildren().clear();
         try {

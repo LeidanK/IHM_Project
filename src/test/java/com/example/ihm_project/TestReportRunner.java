@@ -23,7 +23,6 @@ import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
 
 public class TestReportRunner {
 
-    // Helper class to store result data
     static class TestResultData {
         String name;
         String status; // PASS or FAIL
@@ -106,7 +105,6 @@ public class TestReportRunner {
         long failed = results.stream().filter(r -> r.status.equals("FAIL")).count();
 
         StringBuilder html = new StringBuilder();
-        // PDF Generator requires strict XHTML (Closing all tags, using style tags correctly)
         html.append("<!DOCTYPE html>");
         html.append("<html><head><title>Full Project Test Report</title>");
         html.append("<style>");
@@ -131,7 +129,6 @@ public class TestReportRunner {
         html.append("<div class='summary-box'>");
         html.append("<div class='card bg-blue'>Total Tests<br/><span style='font-size:24px'>").append(results.size()).append("</span></div>");
         html.append("<div class='card bg-green'>Passed<br/><span style='font-size:24px'>").append(passed).append("</span></div>");
-        // Only show failed card if there are failures
         if (failed > 0) {
             html.append("<div class='card bg-red'>Failed<br/><span style='font-size:24px'>").append(failed).append("</span></div>");
         } else {

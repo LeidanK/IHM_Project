@@ -71,7 +71,6 @@ public class AutoUserTest extends ApplicationTest {
         Node node = lookup(".button").match(n -> n instanceof Button && ((Button) n).getText().contains(partialText))
                 .query();
 
-        // Ensure we are hovering the element by moving to it
         moveTo(node);
         try {
             Thread.sleep(100);
@@ -226,18 +225,12 @@ public class AutoUserTest extends ApplicationTest {
     @Order(10)
     public void testInvalidHomePageSearchInput() {
         scrollToTop();
-        // Test empty input
         TextField searchField = lookup(".text-field").query();
         clickOn(searchField).eraseText(searchField.getText().length());
         WaitForAsyncUtils.waitForFxEvents();
-        // Optionally, check for a message or that no results are shown
-        // verifyThat("No results", isVisible()); // Uncomment if such a label exists
 
-        // Test invalid input
         clickOn(searchField).write("@@@###");
         WaitForAsyncUtils.waitForFxEvents();
-        // Optionally, check for a message or that no results are shown
-        // verifyThat("No results", isVisible()); // Uncomment if such a label exists
     }
 
     @Test
@@ -245,19 +238,14 @@ public class AutoUserTest extends ApplicationTest {
     public void testSimulationFilterReset() {
         navigateToSimulationPage();
 
-        // Apply some filters
         Node searchField = lookup(".text-field").query();
         clickOn(searchField).write("Quantum");
         clickOn("Galaxies");
         WaitForAsyncUtils.waitForFxEvents();
 
-        // Assume there is a "Reset" or "Clear Filters" button
-        // Replace "Reset" with the actual button text if different
         if (lookup("Reset").tryQuery().isPresent()) {
             clickOn("Reset");
             WaitForAsyncUtils.waitForFxEvents();
-            // Optionally, check that filters are cleared
-            // verifyThat(searchField, (TextField tf) -> tf.getText().isEmpty());
         }
     }
 }

@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import java.util.Comparator;
 import java.util.Random;
 
-// Renamed from 'projetIHM' to 'SimulationApp' and removed 'extends Application'
 public class SimulationApp {
 
     private static final String ARXIV_RED = "#b31b1b";
@@ -34,7 +33,6 @@ public class SimulationApp {
     private ToggleGroup monthGroup;
     private Label statusLabel;
 
-    // CHANGED: Instead of start(), we have createScene() that takes the previous scene
     public Scene createScene(Stage stage, Scene mainScene) {
         // 1. GENERATE DATA
         generateFakeData();
