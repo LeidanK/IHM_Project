@@ -1,6 +1,6 @@
 # IHM Project
 
-Uniquement si vous prenez la branhe main.
+Uniquement si vous prenez la branhe maven.
 
 ## Introduction
 
