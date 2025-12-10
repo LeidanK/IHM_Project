@@ -33,20 +33,11 @@ public class HelloApplication extends Application {
         // Composant principal
         VBox main = new VBox(15);
         main.setStyle("-fx-background-color: white;");
-//        main.setPadding(new Insets(15));
         main.setAlignment(Pos.TOP_CENTER);
 
-        // Titre
-//        Label title = new Label("arXiv");
-//        title.setFont(Font.font("Arial", FontWeight.BOLD, 35));
-//        title.setTextFill(Color.WHITE);
-
-        // Image / Logo
         ImageView logo = new ImageView(new Image(getClass().getResourceAsStream("/com/example/ihm_project/arxiv-logo.png")));
         logo.setPreserveRatio(true);
         logo.setFitHeight(60);
-//        InputStream is = getClass().getResourceAsStream("/com/example/ihm_project/arxiv-logo.png");
-//        System.out.println(is); // doit afficher quelque chose ≠ null
 
         // Header
         HBox header = new HBox(logo);
@@ -153,7 +144,7 @@ public class HelloApplication extends Application {
         main.getChildren().addAll(header, intro, searchField, grid, footer);
 
         ScrollPane scroll = new ScrollPane(main);
-        scroll.setFitToWidth(true);    // Le contenu occupe toute la largeur
+        scroll.setFitToWidth(true);   
         scroll.setStyle("-fx-background: white;");
 
         Scene helloScene = new Scene(scroll, 1000, 900);
@@ -169,6 +160,18 @@ public class HelloApplication extends Application {
             stage.setScene(secondScene);
         });
 
+        // --- NEW BUTTON FOR SIMULATION MODE ---
+        Button goToSim = new Button("Mode Simulation");
+        goToSim.setMinWidth(150);
+        footer.add(goToSim, 4, 1); 
+
+        goToSim.setOnAction(e -> {
+            SimulationApp sim = new SimulationApp();
+            Scene simScene = sim.createScene(stage, helloScene);
+            stage.setScene(simScene);
+        });
+        // ---------------------------------------
+
         stage.setTitle("arXiv Styled Page");
         stage.setScene(helloScene);
         stage.show();
@@ -176,16 +179,14 @@ public class HelloApplication extends Application {
 
     private void updateGrid(GridPane grid, Map<String, List<String>> data, String filter) {
 
-        grid.getChildren().clear(); // Efface les cards
+        grid.getChildren().clear(); 
 
         int col = 0, row = 0;
 
         for (String category : data.keySet()) {
 
-            // Vérifie si le nom de catégorie correspond au filtre
             boolean matchCategory = category.toLowerCase().contains(filter.toLowerCase());
 
-            // Vérifie si au moins un sous-élément correspond
             boolean matchItem = data.get(category).stream()
                     .anyMatch(item -> item.toLowerCase().contains(filter.toLowerCase()));
 
@@ -206,5 +207,4 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }

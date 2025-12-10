@@ -1,4 +1,4 @@
-package application;
+package com.example.ihm_project;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Hyperlink;
@@ -14,16 +14,19 @@ import java.util.function.Consumer;
 
 public class ArticleCard extends VBox {
 
+
     public ArticleCard(Article item, Consumer<String> onOpenLink) {
+        
         
         this.setPadding(new Insets(15));
         this.setSpacing(8);
         this.setStyle(
-            "-fx-background-color: #f8f8f8;" +         // Fond gris clair
-            "-fx-border-color: #cccccc;" +             // Bordure grise
-            "-fx-border-radius: 8;" +                  // Coins arrondis bordure
-            "-fx-background-radius: 8;"                // Coins arrondis fond
+            "-fx-background-color: #f8f8f8;" +      
+            "-fx-border-color: #cccccc;" +            
+            "-fx-border-radius: 8;" +                 
+            "-fx-background-radius: 8;"                
         );
+        
         
         DropShadow shadow = new DropShadow();
         shadow.setColor(Color.rgb(0, 0, 0, 0.1));
@@ -31,12 +34,15 @@ public class ArticleCard extends VBox {
         shadow.setOffsetY(2);
         this.setEffect(shadow);
 
+        // --- 2. CONTENU ---
         
+        // Titre
         Label title = new Label(item.title);
         title.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
         title.setTextFill(Color.web("#b31b1b")); // Rouge arXiv
         title.setWrapText(true);
         
+        // Métadonnées (Date - Catégorie - Auteurs)
         HBox metaBox = new HBox(10);
         
         Label dateLabel = new Label(item.month + "/" + item.year);
@@ -51,18 +57,21 @@ public class ArticleCard extends VBox {
         
         metaBox.getChildren().addAll(dateLabel, tag, authors);
         
+        // Résumé
         Label abstractText = new Label(item.summary);
         abstractText.setWrapText(true);
         abstractText.setFont(Font.font("Arial", 13));
         abstractText.setTextFill(Color.web("#333"));
         
+        // Lien / Bouton
         Hyperlink link = new Hyperlink("Voir sur arXiv");
         link.setFont(Font.font("Arial", 14));
         link.setStyle("-fx-text-fill: #0055aa;"); // Bleu lien standard
         
+        // Action au clic : on appelle la méthode du Main
         link.setOnAction(e -> onOpenLink.accept(item.link));
 
+        // --- 3. ASSEMBLAGE ---
         this.getChildren().addAll(title, metaBox, abstractText, new Separator(), link);
     }
-
 }

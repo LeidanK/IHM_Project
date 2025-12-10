@@ -1,4 +1,4 @@
-package application;
+package com.example.ihm_project;
 
 public class Article {
     String title;
