@@ -169,6 +169,19 @@ public class HelloApplication extends Application {
             stage.setScene(secondScene);
         });
 
+        // --- NEW BUTTON FOR SIMULATION MODE ---
+        Button goToSim = new Button("Mode Simulation");
+        goToSim.setMinWidth(150);
+        // Add it to the footer at column 4, row 1 (below the other button)
+        footer.add(goToSim, 4, 1); 
+
+        goToSim.setOnAction(e -> {
+            SimulationApp sim = new SimulationApp();
+            Scene simScene = sim.createScene(stage, helloScene);
+            stage.setScene(simScene);
+        });
+        // ---------------------------------------
+
         stage.setTitle("arXiv Styled Page");
         stage.setScene(helloScene);
         stage.show();
