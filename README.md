@@ -32,8 +32,8 @@ Lors de notre cours, nous avons dû télécharger depuis internet le **SDK JavaF
 et d'ajouter tous les fichiers .jar situés dans le dossier ``/lib`` du SDK JavaFX installé.
 _Il est conseillé d'utiliser le JavaFX SDK **version 21** également, par soucis de conflits entre versions._
 
-Pour mener à bien la partie scrapping de la page initiale et extraction des données, il est nécessaire de télécharger le fichier ``jsoup-1.21.2.jar`` et de le placer dans le dossier ``/lib`` du projet.
-De cette manière, aucune dépendance ne manquera au projet.
+Pour mener à bien la partie scrapping de la page initiale et extraction des données, il est également nécessaire de télécharger le fichier ``jsoup-1.21.2.jar`` et de le placer dans le dossier ``/lib`` du projet, avec les .jar du **SDK JavaFX**.
+De cette manière, aucune dépendance ne manquera au bon lancement de l'application.
 
 ### VM Options
 
