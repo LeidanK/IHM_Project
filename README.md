@@ -1,53 +1,71 @@
 # IHM Project
 
 ## Introduction
-Voici le repo GitHub qui sera utilisé pour la construction du projet IHM.
 
-Et voici également les liens des trois pages qui devront être recréées :
+Ce projet est une application JavaFX inspirée de plusieurs pages arXiv :
 - https://arxiv.org/
 - https://arxiv.org/list/cs.CL/recent
 - https://arxiv.org/year/astro-ph/2021
 
-Pour coder sur ce repo, il suffit de cloner le repo sur votre machine de manière classique.
+## Prérequis
 
-Etant donné que c'est un projet JavaFX, il faudra bien veiller à respecter la mise en place suivante pour le bon lancement de l'application.
+- **Java 21** (SDK installé sur votre machine)
+- **Maven** (outil de build)
 
-## Configuration
+## Installation
 
-Par la suite, la procédure est décrite pour les utilisateurs de **IntelliJ**, mais l'équivalent existe sur tout autre IDE. Si doute, demandez à ChatGPT de traduire le paragraphe suivant pour votre IDE ;)
+Clonez le dépôt sur votre machine :
+```sh
+git clone <url_du_repo>
+cd ihm_project
+```
 
-### Java Version
-La version de Java utilisée est **Java 21**. C'est cette version qu'il faudra utilisée tout du long du projet pour éviter tout conflit.
+## Lancement de l'application
 
-Pour configurer la version de Java utilisée, vous devez avoir un onglet, quelque chose comme Project Structure, où vous pouvez gérer les différentes informations et configurations relatives à votre projet.
-De là, il faut bien spécifier **SDK > Java 21** et **Language level > SDK Default**.
+Pour lancer l'application JavaFX via Maven :
 
-Une fois cela fait, déjà bravo, mais ce n'est pas fini. Il reste deux petites choses à faire.
+```sh
+mvn javafx:run
+```
+> Si vous utilisez un IDE, vous pouvez aussi lancer la classe principale `com.example.ihm_project.HelloApplication`.
 
-### Dépendances JavaFX
+## Lancement des tests
 
-Lors de notre cours, nous avons dû télécharger depuis internet le **SDK JavaFX**. Il est nécessaire d'intégrer dans les dépendances du projet.
+Pour compiler et exécuter les tests (JUnit + TestFX) :
 
-    Projet Structure > Modules > Dependancies
-et d'ajouter tous les fichiers .jar situés dans le dossier ``/lib`` du SDK JavaFX installé.
-_Il est conseillé d'utiliser le JavaFX SDK **version 21** également, par soucis de conflits entre versions._
+```sh
+mvn test
+```
 
-### VM Options
+Pour compiler les tests et lancer le runner de rapport (si configuré dans le pom.xml) :
 
-On approche de la fin !
+```sh
+mvn test-compile exec:java
+```
+> Cela exécutera la classe `com.example.ihm_project.TestReportRunner` (modifiez si besoin).
 
-Si vous n'avez pas de configuration, créez en une, ``Add new Configuration``, et sélectionner ``Application`` dans les choix proposés (pour lancer notre application).
+## Nettoyage du projet
 
-Spécifiez la classe principale du projet : ``com.example.ihm_project.HelloApplication``
+Pour nettoyer les fichiers compilés et les dossiers générés par Maven :
 
-Ajouter les options VM (``Modify options > Add VM Options``).
+```sh
+mvn clean
+```
+> Cette commande supprime le dossier `target` et permet de repartir sur une base propre avant une nouvelle compilation ou exécution.
 
-``--module-path "chemin/absolu/vers/SDK_installé/lib" --add-modules javafx.controls,javafx.fxml``
+## Configuration JavaFX
 
-Cette ligne est à copier / coller dans le options VM de la configuration que vous utilisez pour lancer l'application, **en remplaçant bien évidemment le chemin absolu par votre réel chemin vers le sous-dossier ``/lib`` du SDK téléchargé.**
+Si vous rencontrez des problèmes de dépendances JavaFX, vérifiez que le SDK JavaFX version 21 est bien installé et que le chemin vers `/lib` est correctement configuré dans votre IDE ou vos variables d'environnement.
 
-## Conclusion
+## Structure du projet
 
-Ce devrait être tout bon maintenant ! Vous pouvez lancer l'application depuis la configuration créée.
+- `src/main/java` : Code source de l'application
+- `src/test/java` : Tests automatisés (JUnit, TestFX)
+- `pom.xml` : Configuration Maven et dépendances
 
-Maintenant, on code :)
+## Remarques
+
+- Toutes les dépendances nécessaires sont gérées par Maven.
+- Pour toute question sur la configuration ou l'exécution, consultez la documentation Maven ou demandez à ChatGPT.
+
+Bon développement !
