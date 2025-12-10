@@ -1,5 +1,7 @@
 # IHM Project
 
+Uniquement si vous prenez la branhe main.
+
 ## Introduction
 
 Ce projet est une application JavaFX inspirée de plusieurs pages arXiv :
