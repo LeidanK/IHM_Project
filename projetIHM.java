@@ -24,12 +24,10 @@ public class projetIHM extends Application {
     private static final String ARXIV_RED = "#b31b1b";
     private static final String BACKGROUND_GREY = "#f3f3f3";
 
-    // Données
     private ObservableList<Article> masterData = FXCollections.observableArrayList();
     private FilteredList<Article> filteredData;
     private SortedList<Article> sortedData;
 
-    // Interface
     private TextField searchField;
     private CheckBox cbGalaxies, cbCosmo, cbPlanets;
     private ComboBox<Integer> yearSelect;
@@ -38,13 +36,10 @@ public class projetIHM extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // 1. GÉNÉRATION MASSIVE DE DONNÉES (Tout est fait au démarrage)
         generateFakeData();
 
-        // 2. Configuration des listes
         filteredData = new FilteredList<>(masterData, p -> true);
         
-        // Tri : Les plus récents en haut
         sortedData = new SortedList<>(filteredData);
         sortedData.setComparator(Comparator.comparingInt((Article a) -> a.year)
                 .thenComparingInt(a -> a.month)
@@ -53,9 +48,7 @@ public class projetIHM extends Application {
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: " + BACKGROUND_GREY + ";");
 
-        // =================================================================================
         // TOP : HEADER + TIMELINE
-        // =================================================================================
         VBox topContainer = new VBox(0);
         
         HBox header = new HBox(15);
@@ -86,7 +79,6 @@ public class projetIHM extends Application {
         yearSelect.setStyle("-fx-background-color: white; -fx-font-weight: bold;");
         yearSelect.setPrefWidth(80);
         
-        // CHANGEMENT D'ANNEE -> FILTRE INSTANTANÉ (Pas de chargement)
         yearSelect.valueProperty().addListener((obs, oldVal, newVal) -> applyLocalFilter());
         
         yearBox.getChildren().addAll(lblYear, yearSelect);
@@ -94,7 +86,6 @@ public class projetIHM extends Application {
         Separator sep = new Separator(Orientation.VERTICAL);
         
         monthGroup = new ToggleGroup();
-        // CHANGEMENT DE MOIS -> FILTRE INSTANTANÉ
         monthGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> applyLocalFilter());
 
         String[] months = {"JAN", "FEB", "MAR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
@@ -106,9 +97,7 @@ public class projetIHM extends Application {
         topContainer.getChildren().addAll(header, timelineBox);
         root.setTop(topContainer);
 
-        // =================================================================================
         // LEFT : FILTRES
-        // =================================================================================
         VBox filtersBox = new VBox(15);
         filtersBox.setPadding(new Insets(20));
         filtersBox.setPrefWidth(240);
@@ -139,9 +128,7 @@ public class projetIHM extends Application {
         filtersBox.getChildren().addAll(filterTitle, searchField, new Separator(), cbGalaxies, cbCosmo, cbPlanets, new Separator(), resetBtn);
         root.setLeft(filtersBox);
 
-        // =================================================================================
         // CENTER : LISTE
-        // =================================================================================
         ListView<Article> paperList = new ListView<>();
         // On lie la liste triée
         paperList.setItems(sortedData);
@@ -195,9 +182,7 @@ public class projetIHM extends Application {
         applyLocalFilter();
     }
 
-    // =================================================================================
-    // GENERATEUR DE FAUSSES DONNÉES (Pour tous les mois de toutes les années)
-    // =================================================================================
+    // GENERATEUR DES DONNEES
     private void generateFakeData() {
         String[] subjects = {"Dark Matter", "Exoplanet", "Black Hole", "Redshift", "Neutrino", "Star Formation", "Galaxy Cluster", "Cosmic Web", "Gravitational Wave", "Supernova", "Quantum Field", "String Theory"};
         String[] actions = {"Detection of", "Analysis of", "New constraints on", "Simulating", "Observations of", "The origin of", "Mapping the", "Dynamics of"};
@@ -205,25 +190,21 @@ public class projetIHM extends Application {
         
         Random rand = new Random();
 
-        // Pour chaque année supportée
         for (int year = 2020; year <= 2025; year++) {
             // Pour chaque mois
             for (int month = 1; month <= 12; month++) {
                 
-                // On génère entre 5 et 12 articles par mois
                 int nbArticles = 5 + rand.nextInt(8);
                 
                 for (int i = 0; i < nbArticles; i++) {
                     String title = actions[rand.nextInt(actions.length)] + " " + subjects[rand.nextInt(subjects.length)];
                     String author = authorsList[rand.nextInt(authorsList.length)] + ", " + authorsList[rand.nextInt(authorsList.length)];
                     
-                    // Catégorie aléatoire
                     String cat = "Cosmology";
                     int r = rand.nextInt(3);
                     if (r == 1) cat = "Galaxies";
                     if (r == 2) cat = "Planetary";
                     
-                    // Ajout d'un peu de variété dans le titre
                     if (rand.nextBoolean()) title += " in Sector " + rand.nextInt(99);
                     
                     String summary = "This is a simulated abstract for the paper titled " + title + ". It explores recent data from the specific year and month selected.";
@@ -235,29 +216,23 @@ public class projetIHM extends Application {
         System.out.println("Génération terminée : " + masterData.size() + " articles créés.");
     }
 
-    // =================================================================================
     // FILTRE LOCAL (ANNEE + MOIS + TEXTE + CATEGORIE)
-    // =================================================================================
     private void applyLocalFilter() {
         filteredData.setPredicate(article -> {
             
-            // 1. FILTRE ANNEE (Strict)
             if (article.year != yearSelect.getValue()) return false;
 
-            // 2. FILTRE MOIS (Si sélectionné)
             if (monthGroup.getSelectedToggle() != null) {
                 int selectedMonth = (int) monthGroup.getSelectedToggle().getUserData();
                 if (article.month != selectedMonth) return false;
             }
 
-            // 3. FILTRE TEXTE
             String searchText = searchField.getText();
             if (searchText != null && !searchText.isEmpty()) {
                 String lower = searchText.toLowerCase();
                 if (!article.title.toLowerCase().contains(lower) && !article.authors.toLowerCase().contains(lower)) return false;
             }
 
-            // 4. FILTRE CATEGORIE
             boolean ga = cbGalaxies.isSelected();
             boolean co = cbCosmo.isSelected();
             boolean pl = cbPlanets.isSelected();
@@ -295,4 +270,5 @@ public class projetIHM extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
